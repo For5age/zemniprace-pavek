@@ -1,21 +1,819 @@
-zemniprace-pavek/
-├── index.html (already created above)
-├── css/
-│   └── style.css
-├── js/
-│   ├── main.js
-│   └── calendar.js
-├── images/
-│   ├── projects/
-│   │   ├── project1.jpg (upload your foundation work photos)
-│   │   ├── project2.jpg (upload commercial site photos)
-│   │   └── project3.jpg (upload drainage system photos)
-│   └── machinery/
-│       ├── excavator-20t.jpg (upload 20-ton excavator photo)
-│       ├── mini-excavator.jpg (upload mini excavator photo)
-│       ├── bulldozer.jpg (upload bulldozer photo)
-│       ├── skid-steer.jpg (upload skid steer photo)
-│       └── dump-trucks.jpg (upload dump trucks photo)
-├── api/
-│   └── submit-form.php
-└── README.md
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Zemní práce Pávek - Profesionální výkopové a zemní práce. Bagry, buldozery a kompletní park strojů pro vaše projekty.">
+    <meta name="keywords" content="zemní práce, bagr, výkop, buldozer, terénní úpravy, základy, Zlín">
+    <title>Zemní práce Pávek - Profesionální výkopové práce</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0B231B;
+            --light-green: #C7D5CB;
+            --dark-gray: #3A413E;
+            --sage: #CACC80;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: var(--primary);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--white);
+            z-index: 1000;
+            padding: 1.2rem 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            transition: color 0.3s;
+            letter-spacing: 0.3px;
+        }
+
+        nav a:hover {
+            color: var(--sage);
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 6rem 0 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--white);
+        }
+
+        .hero {
+            background: var(--primary);
+            color: var(--light-green);
+            text-align: center;
+            padding: 8rem 5% 6rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: var(--sage);
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 3rem;
+            opacity: 0.95;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: var(--sage);
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-btn:hover {
+            background: #b8ba6e;
+        }
+
+        .about {
+            background: var(--light-green);
+            padding: 6rem 5% 6rem;
+        }
+
+        .about h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.15rem;
+            color: var(--primary);
+            opacity: 0.85;
+        }
+
+        .pricing-section {
+            padding: 6rem 5% 6rem;
+            background: var(--white);
+        }
+
+        .pricing-section h2 {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 4rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: var(--light-green);
+            padding: 2.5rem;
+        }
+
+        .service-card h3 {
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .min-hours {
+            color: var(--primary);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .gallery {
+            background: var(--white);
+            padding: 6rem 0 0;
+        }
+
+        .gallery h2 {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 4rem;
+            padding: 0 5%;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .project-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 500px;
+        }
+
+        .project-image {
+            background: linear-gradient(135deg, var(--sage) 0%, var(--dark-gray) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-green);
+            font-size: 1rem;
+        }
+
+        .project-text {
+            background: var(--primary);
+            color: var(--light-green);
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .project-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--sage);
+            font-weight: 600;
+        }
+
+        .project-text p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            opacity: 0.9;
+        }
+
+        .machinery {
+            background: var(--primary);
+            padding: 6rem 0 6rem;
+        }
+
+        .machinery h2 {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 4rem;
+            color: var(--sage);
+            font-weight: 600;
+        }
+
+        .machine-grid {
+            max-width: 100%;
+        }
+
+        .machine-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 400px;
+        }
+
+        .machine-image {
+            background: linear-gradient(135deg, var(--dark-gray) 0%, var(--sage) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-green);
+            font-size: 1rem;
+        }
+
+        .machine-content {
+            background: var(--primary);
+            padding: 3rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-top: 1px solid rgba(202, 204, 128, 0.2);
+        }
+
+        .machine-content h3 {
+            font-size: 2rem;
+            color: var(--sage);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .machine-content p {
+            font-size: 1.1rem;
+            color: var(--light-green);
+            opacity: 0.85;
+            margin-bottom: 1.5rem;
+        }
+
+        .machine-status {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            background: rgba(202, 204, 128, 0.2);
+            color: var(--sage);
+        }
+
+        .calendar-section {
+            background: var(--white);
+            padding: 6rem 5% 6rem;
+        }
+
+        .calendar-section h2 {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .calendar-controls {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .calendar-subtitle {
+            color: var(--primary);
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .calendar-password {
+            max-width: 400px;
+            margin: 0 auto 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .calendar-password input {
+            flex: 1;
+            padding: 0.9rem;
+            border: 1px solid var(--light-green);
+            font-size: 1rem;
+            background: var(--light-green);
+        }
+
+        .calendar-password button {
+            padding: 0.9rem 1.8rem;
+            background: var(--sage);
+            color: var(--primary);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .calendar-password button:hover {
+            background: #b8ba6e;
+        }
+
+        .calendar {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            background: var(--light-green);
+            padding: 2px;
+        }
+
+        .cal-header {
+            text-align: center;
+            font-weight: 600;
+            padding: 1rem 0.5rem;
+            color: var(--primary);
+            background: var(--white);
+        }
+
+        .cal-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            background: var(--white);
+            transition: background 0.2s;
+        }
+
+        .cal-day.editable {
+            cursor: pointer;
+        }
+
+        .cal-day.available {
+            background: var(--sage);
+            color: var(--white);
+        }
+
+        .cal-day.busy {
+            background: var(--dark-gray);
+            color: var(--light-green);
+        }
+
+        .contact-funnel {
+            background: var(--primary);
+            color: var(--light-green);
+            text-align: center;
+            padding: 6rem 5% 6rem;
+        }
+
+        .funnel-step {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .funnel-step h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            color: var(--sage);
+            font-weight: 600;
+        }
+
+        .funnel-step p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        .urgency-badge {
+            display: inline-block;
+            background: var(--sage);
+            color: var(--primary);
+            padding: 0.6rem 1.8rem;
+            margin-bottom: 2.5rem;
+            font-weight: 500;
+        }
+
+        form {
+            background: var(--light-green);
+            padding: 3rem;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.9rem;
+            border: none;
+            font-size: 1rem;
+            background: var(--white);
+            transition: background 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: 2px solid var(--sage);
+            background: var(--white);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .benefits-list {
+            background: rgba(202, 204, 128, 0.1);
+            padding: 2rem;
+            margin: 2.5rem 0;
+            text-align: left;
+        }
+
+        .benefits-list li {
+            margin: 0.7rem 0;
+            padding-left: 1.8rem;
+            position: relative;
+        }
+
+        .benefits-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: var(--sage);
+        }
+
+        .success-message {
+            display: none;
+            background: var(--sage);
+            color: var(--primary);
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .success-message h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background: var(--primary);
+            color: var(--light-green);
+            text-align: center;
+            padding: 3rem 5%;
+            border-top: 1px solid rgba(202, 204, 128, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .section {
+                padding: 5rem 0 0;
+            }
+
+            .project-item, .machine-row {
+                grid-template-columns: 1fr;
+            }
+
+            .project-text, .machine-content {
+                padding: 2.5rem;
+            }
+
+            .calendar {
+                gap: 1px;
+                padding: 1px;
+            }
+
+            .cal-day {
+                font-size: 0.85rem;
+            }
+
+            form {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#home">Domů</a></li>
+            <li><a href="#about">O nás</a></li>
+            <li><a href="#pricing">Ceník</a></li>
+            <li><a href="#gallery">Projekty</a></li>
+            <li><a href="#machinery">Stroje</a></li>
+            <li><a href="#availability">Dostupnost</a></li>
+            <li><a href="#contact">Poptávka</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="section hero">
+        <h1>Profesionální Zemní Práce</h1>
+        <p>Precizní výkopové práce pro váš projekt</p>
+        <a href="#contact" class="cta-btn">Nezávazná poptávka</a>
+    </section>
+
+    <section id="about" class="section about">
+        <h2>O nás</h2>
+        <div class="about-content">
+            <p>S více než 15 lety zkušeností v oboru poskytujeme profesionální a spolehlivé služby zemních prací pro rezidenční i komerční projekty. Náš moderní park strojů a zkušení operátoři zajistí dokončení vašeho projektu včas, v rámci rozpočtu a na nejvyšší úrovni.</p>
+            <p style="margin-top: 1.5rem;">Od přípravy staveniště až po drenážní systémy zvládáme všechny aspekty zemních prací s precizností a péčí. Vaše spokojenost je naší prioritou.</p>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing-section">
+        <h2>Ceník služeb</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Výkopové práce</h3>
+                <p>Kompletní příprava staveniště a výkopové služby</p>
+                <div class="price">2400 Kč/hod</div>
+                <p class="min-hours">Minimum 4 hodiny</p>
+            </div>
+            <div class="service-card">
+                <h3>Rýhování</h3>
+                <p>Rýhy pro inženýrské sítě a drenáže</p>
+                <div class="price">2100 Kč/hod</div>
+                <p class="min-hours">Minimum 3 hodiny</p>
+            </div>
+            <div class="service-card">
+                <h3>Základy</h3>
+                <p>Výkop a příprava základů staveb</p>
+                <div class="price">2600 Kč/hod</div>
+                <p class="min-hours">Minimum 6 hodin</p>
+            </div>
+            <div class="service-card">
+                <h3>Terénní úpravy</h3>
+                <p>Kompletní úprava terénu a planýrování</p>
+                <div class="price">2000 Kč/hod</div>
+                <p class="min-hours">Minimum 4 hodiny</p>
+            </div>
+            <div class="service-card">
+                <h3>Bourací práce</h3>
+                <p>Demolice konstrukcí a odvoz sutě</p>
+                <div class="price">3000 Kč/hod</div>
+                <p class="min-hours">Cena na dotaz</p>
+            </div>
+            <div class="service-card">
+                <h3>Přesun materiálu</h3>
+                <p>Odvoz zeminy a přesun materiálů</p>
+                <div class="price">1800 Kč/hod</div>
+                <p class="min-hours">Minimum 3 hodiny</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="section gallery">
+        <h2>Naše projekty</h2>
+        
+        <div class="project-item">
+            <div class="project-image">Fotografie výkopu základů</div>
+            <div class="project-text">
+                <h3>Výkop základů rodinného domu</h3>
+                <p>Kompletní příprava základů pro rodinný dům o ploše 250 m². Precizní výkop a planýrování dokončeno za 3 dny, včetně zajištění správné drenáže a konstrukční podpory pro novou výstavbu.</p>
+            </div>
+        </div>
+
+        <div class="project-item">
+            <div class="project-text">
+                <h3>Příprava komerčního areálu</h3>
+                <p>Rozsáhlá příprava staveniště pro komerční výstavbu. Přes 5000 kubíků přesunuté zeminy, včetně rýhování inženýrských sítí a výstavby přístupových cest. Projekt dokončen před termínem.</p>
+            </div>
+            <div class="project-image">Fotografie komerčního projektu</div>
+        </div>
+
+        <div class="project-item">
+            <div class="project-image">Fotografie drenážního systému</div>
+            <div class="project-text">
+                <h3>Drenážní systém</h3>
+                <p>Komplexní drenážní řešení pro rezidenční výstavbu. Precizní rýhování a pokládka potrubí zajišťující optimální odvodnění a dlouhodobou ochranu nemovitosti.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="machinery" class="section machinery">
+        <h2>Náš strojní park</h2>
+        <div class="machine-grid">
+            <div class="machine-row">
+                <div class="machine-image">Fotografie bagru 20 tun</div>
+                <div class="machine-content">
+                    <h3>Bagr 20 tun</h3>
+                    <p>Těžký bagr pro rozsáhlé projekty. Výkonný stroj pro hluboké výkopy, demolice a práci s těžkým materiálem. Ideální pro komerční projekty a složité terénní úpravy.</p>
+                    <span class="machine-status">Dostupný</span>
+                </div>
+            </div>
+
+            <div class="machine-row">
+                <div class="machine-content">
+                    <h3>Minibagr 5 tun</h3>
+                    <p>Ideální pro stísněné prostory a precizní práce. Dokonalý pro rezidenční projekty, inženýrské sítě a úzké přístupové oblasti vyžadující detailní výkopové práce.</p>
+                    <span class="machine-status">Dostupný</span>
+                </div>
+                <div class="machine-image">Fotografie minibagru</div>
+            </div>
+
+            <div class="machine-row">
+                <div class="machine-image">Fotografie buldozeru</div>
+                <div class="machine-content">
+                    <h3>Buldozer D6</h3>
+                    <p>Univerzální stroj pro terénní úpravy a planýrování. Efektivní příprava staveniště, hrubé planýrování a přesun materiálu pro všechny typy projektů.</p>
+                    <span class="machine-status">Dostupný</span>
+                </div>
+            </div>
+
+            <div class="machine-row">
+                <div class="machine-content">
+                    <h3>Kolový nakladač</h3>
+                    <p>Víceúčelový stroj pro různé stavební práce. Rychlá výměna příslušenství pro kopání, planýrování, manipulaci s materiálem a úklid staveniště.</p>
+                    <span class="machine-status">Dostupný</span>
+                </div>
+                <div class="machine-image">Fotografie kolového nakladače</div>
+            </div>
+
+            <div class="machine-row">
+                <div class="machine-image">Fotografie nákladních vozů</div>
+                <div class="machine-content">
+                    <h3>Nákladní vozy (2x)</h3>
+                    <p>Spolehlivá flotila pro přesuny materiálu. Efektivní odvoz vytěžené zeminy, kameniva a stavebních materiálů na vaše staveniště a ze staveniště.</p>
+                    <span class="machine-status">Dostupný</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="availability" class="calendar-section">
+        <h2>Kalendář dostupnosti</h2>
+        <div class="calendar-controls">
+            <p class="calendar-subtitle">Následující 2 měsíce</p>
+            <div class="calendar-password">
+                <input type="password" id="calPassword" placeholder="Heslo pro úpravu kalendáře">
+                <button onclick="unlockCalendar()">Odemknout</button>
+            </div>
+        </div>
+        <div class="calendar" id="calendar"></div>
+    </section>
+
+    <section id="contact" class="section contact-funnel">
+        <div class="funnel-step">
+            <span class="urgency-badge">⚡ Omezená kapacita tento měsíc</span>
+            <h2>Začněte svůj projekt dnes</h2>
+            <p>Připojte se ke stovkám spokojených zákazníků, kteří si vybrali kvalitu a spolehlivost</p>
+            
+            <ul class="benefits-list">
+                <li>Nezávazná konzultace a cenová nabídka zdarma</li>
+                <li>Moderní technika a certifikovaní operátoři</li>
+                <li>Flexibilní termíny přizpůsobené vašemu projektu</li>
+                <li>Konkurenční ceny bez skrytých poplatků</li>
+                <li>Plně pojištěno a licencováno</li>
+            </ul>
+
+            <div id="contactForm">
+                <form onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label>Typ projektu *</label>
+                        <select required>
+                            <option value="">Vyberte službu</option>
+                            <option>Výkopové práce</option>
+                            <option>Rýhování</option>
+                            <option>Základy</option>
+                            <option>Terénní úpravy</option>
+                            <option>Bourací práce</option>
+                            <option>Přesun materiálu</option>
+                            <option>Jiné</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Vaše jméno *</label>
+                        <input type="text" required placeholder="Jan Novák">
+                    </div>
+                    <div class="form-group">
+                        <label>Preferovaný kontakt (Email nebo telefon) *</label>
+                        <input type="text" required placeholder="jan@example.com nebo +420 123 456 789">
+                    </div>
+                    <div class="form-group">
+                        <label>Detaily projektu</label>
+                        <textarea placeholder="Popište nám svůj projekt..."></textarea>
+                    </div>
+                    <button type="submit" class="cta-btn" style="width: 100%;">Odeslat poptávku →</button>
+                </form>
+            </div>
+
+            <div id="successMessage" class="success-message">
+                <h3>🎉 Děkujeme!</h3>
+                <p>Obdrželi jsme vaši poptávku a ozveme se vám do 24 hodin.</p>
+                <p style="margin-top: 1rem; font-size: 0.95rem;">Zkontrolujte svůj kontakt pro naši odpověď.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Zemní práce Pávek. Všechna práva vyhrazena.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">Telefon: +420 773 972 649 | Email: zemnipracepavek@gmail.com</p>
+    </footer>
+
+    <script>
+        let isUnlocked = false;
+        const CALENDAR_PASSWORD = "pavek2024";
+
+        function unlockCalendar() {
+            const input = document.getElementById('calPassword');
+            if (input.value === CALENDAR_PASSWORD) {
+                isUnlocked = true;
+                alert('Kalendář odemčen! Nyní můžete upravovat dostupnost.');
+                input.value = '';
+                document.querySelectorAll('.cal-day').forEach(day => {
+                    day.classList.add('editable');
+                });
+            } else {
+                alert('Nesprávné heslo');
+            }
+        }
+
+        const calendar = document.getElementById('calendar');
+        const days = ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'];
+        
+        days.forEach(day => {
+            const header = document.createElement('div');
+            header.className = 'cal-header';
+            header.textContent = day;
+            calendar.appendChild(header);
+        });
+
+        const today = new Date();
+
+        for (let i = 0; i < 60; i++) {
+            const date = new Date(today);
+            date.setDate(today.getDate() + i);
+            const dayNum = date.getDate();
+            const key = date.toISOString().split('T')[0];
+            
+            const dayEl = document.createElement('div');
+            dayEl.className = 'cal-day ' + (Math.random() > 0.3 ? 'available' : 'busy');
+            dayEl.textContent = dayNum;
+            dayEl.dataset.date = key;
+            
+            dayEl.onclick = function() {
+                if (!isUnlocked) {
+                    alert('Nejprve odemkněte kalendář zadáním hesla.');
+                    return;
+                }
+                this.className = this.className.includes('available') 
+                    ? 'cal-day editable busy' 
+                    : 'cal-day editable available';
+            };
+            
+            calendar.appendChild(dayEl);
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            document.getElementById('contactForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
